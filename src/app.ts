@@ -1,4 +1,5 @@
 import express, { type Application, type Request, type Response } from "express"
+import { userRouter } from "./modules/user/user.routes";
 
 const app : Application = express();
 
@@ -12,5 +13,8 @@ app.get("/", (req :Request, res : Response)=>{
         message : "The server is Running successfully"
     })
 })
+
+//? here we will have all the routes
+app.use('/api/user', userRouter)
 
 export default app;
