@@ -3,6 +3,7 @@ import { userRouter } from "./modules/user/user.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import config from "./config/config";
+import sendResponse from "./utility/sendResponse";
 
 const app : Application = express();
 
@@ -17,11 +18,7 @@ app.use(cors({
 
 
 app.get("/", (req :Request, res : Response)=>{
-    res.status(200).json({
-        success : true,
-        statusCode : 200,
-        message : "The server is Running successfully"
-    })
+    sendResponse(res, 200, true, 'Hellow this is the root route');
 })
 
 //? here we will have all the routes
