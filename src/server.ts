@@ -1,11 +1,13 @@
 import app from "./app";
 import "dotenv/config"
 import config from "./config/config";
+import { prisma } from "./lib/prisma";
 
 
-const main = () =>{
+const main = async() =>{
     try{
 
+        await prisma.$connect();
         console.log("Database connected successfully!");
 
         //? this is the function for creating the server and saying that it is running  successfully on that port number
@@ -23,6 +25,7 @@ const main = () =>{
     }catch(err){
         console.log(err);
         console.log("Error Occured starting the server");
+        await prisma.$disconnect();
         process.exit(1);
     }
 }
