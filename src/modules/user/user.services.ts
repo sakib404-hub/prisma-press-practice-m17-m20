@@ -1,5 +1,7 @@
+import config from "../../config/config";
 import { prisma } from "../../lib/prisma";
 import { PayLoad } from "./user.interface";
+import bcrypt from "bcrypt"
 
 const registerUserIntoDB = async(payLoad : PayLoad)=>{
 
@@ -16,10 +18,41 @@ const registerUserIntoDB = async(payLoad : PayLoad)=>{
         throw new Error("User with this email already exist!");
     }
 
-
-
+    const hashedPassword = await bcrypt.hash(password, config.bcrypt_salt_rounds);
     
-    return payLoad;
+
+    //? creating the user
+    const newUser = await prisma.user.create({
+        data : {
+            name,
+            email,
+            password : hashedPassword
+        }
+    });
+
+    //? creating the profile for the user
+    await prisma.profile.create({
+       data : {
+        user_id : newUser.id,
+        profilePhoto
+       }
+    })
+
+
+    const user = await prisma.user.findUnique({
+        where : {
+            id : newUser.id,
+            email
+        },
+        include :{
+            profile : true
+        },
+        omit : {
+            password : true
+        }
+    })
+
+    return user;
 
 }
 

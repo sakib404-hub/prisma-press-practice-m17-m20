@@ -1,7 +1,7 @@
 model Profile {
     id String @id @default(uuid())
     profilePhoto String
-    bio String
+    bio String?
 
     //? creating one to one relationship with the user
     user User @relation(fields: [user_id], references: [id])
