@@ -5,15 +5,19 @@ import status from "http-status"
 
 
 const getAllUser = async (req: Request, res: Response) => {
-    res.status(200).json({
-        success: true,
-        message: "Got All the User from the database Successfully",
-        data: {
-            name: "Md Sakib Hossen",
-            email: 'sakib@gmail.com',
-            age: 24
-        }
-    })
+   try{
+
+        const users = await userServices.getAllUsersFromDB();
+
+        return sendResponse(res, status.OK, true, "User Information fetched successfully", users);
+
+   }catch(err){
+    
+    console.error(err);
+    const errorMessage = err instanceof Error ? err.message : "Something went wrong";
+    return sendResponse(res, status.INTERNAL_SERVER_ERROR, false, errorMessage);
+
+   }
 }
 
 const registerUser = async (req: Request, res: Response) => {
