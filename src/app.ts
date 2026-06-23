@@ -22,6 +22,6 @@ app.get("/", (req :Request, res : Response)=>{
 })
 
 //? here we will have all the routes
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
 
 export default app;

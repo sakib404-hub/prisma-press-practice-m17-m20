@@ -2,5 +2,5 @@ export interface IResponse<T> {
     success : boolean;
     message : string;
     data ? : T;
-    error ? : unknown
+    error ? : unknown;
 }
