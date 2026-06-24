@@ -65,6 +65,7 @@ const getAllUsersFromDB = async()=>{
     return users;
 }
 
+
 const userServices = {
     registerUserIntoDB,
     getAllUsersFromDB
