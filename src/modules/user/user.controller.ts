@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
 import userServices from "./user.services";
-import sendResponse from "../../utility/sendResponse";
 import status from "http-status"
 import catchAsync from "../../utility/catchAsync";
 import sendResponse2 from "../../utility/sendResponse2";

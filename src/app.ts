@@ -3,7 +3,9 @@ import { userRouter } from "./modules/user/user.routes";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import config from "./config/config";
-import sendResponse from "./utility/sendResponse";
+import sendResponse2 from "./utility/sendResponse2";
+import status from "http-status"
+import { authRouter } from "./modules/auth/auth.route";
 
 const app : Application = express();
 
@@ -18,10 +20,17 @@ app.use(cors({
 
 
 app.get("/", (req :Request, res : Response)=>{
-    sendResponse(res, 200, true, 'Hellow this is the root route');
+    sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "This is the Root Route"
+    });
 })
 
 //? here we will have all the routes
 app.use('/api/user', userRouter);
+
+//? here is the route for authentication
+app.use('/api/auth', authRouter);
 
 export default app;
