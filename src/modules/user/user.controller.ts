@@ -31,11 +31,25 @@ const registerUser = catchAsync(async(req : Request, res : Response, next : Next
     });
 })
 
+const getMyProfile = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
+    const id = req.user?.id as string;
+
+    const user = await userServices.getMyProfileFromDB(id);
+
+    sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "User Information feteched SuccessFully!",
+        data : user
+    });
+})
+
 
 
 const userController = {
     getAllUser,
-    registerUser
+    registerUser,
+    getMyProfile
 }
 
 export default userController;

@@ -65,10 +65,26 @@ const getAllUsersFromDB = async()=>{
     return users;
 }
 
+const getMyProfileFromDB = async(id : string)=>{
+    const user = await prisma.user.findUnique({
+        where : {
+            id
+        },
+        omit : {
+            password : true
+        },
+        include : {
+            profile : true
+        }
+    })
+
+    return user;
+}
 
 const userServices = {
     registerUserIntoDB,
-    getAllUsersFromDB
+    getAllUsersFromDB,
+    getMyProfileFromDB
 }
 
 export default userServices;
