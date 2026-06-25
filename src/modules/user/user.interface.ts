@@ -4,3 +4,10 @@ export interface PayLoad {
     password : string;
     profilePhoto : string;
 }
+
+export interface UpdatePayLoad {
+    name? : string;
+    email : string;
+    bio? : string;
+    profilePhoto? : string; 
+}

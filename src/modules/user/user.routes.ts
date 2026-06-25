@@ -8,8 +8,10 @@ const router = Router();
 
 router.post('/register', userController.registerUser);
 
-router.get('/getAllUser', auth(Role.USER, Role.ADMIN, Role.AUTHOR), userController.getAllUser)
+router.get('/getAllUser', userController.getAllUser)
 
 router.get('/me', auth(Role.USER, Role.ADMIN, Role.AUTHOR), userController.getMyProfile);
+
+router.put('/my-profile', auth(Role.USER, Role.ADMIN),userController.updateProrile);
 
 export const userRouter = router;

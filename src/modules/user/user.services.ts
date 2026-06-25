@@ -1,6 +1,6 @@
 import config from "../../config/config";
 import { prisma } from "../../lib/prisma";
-import { PayLoad } from "./user.interface";
+import { PayLoad, UpdatePayLoad } from "./user.interface";
 import bcrypt from "bcrypt"
 
 const registerUserIntoDB = async(payLoad : PayLoad)=>{
@@ -81,10 +81,39 @@ const getMyProfileFromDB = async(id : string)=>{
     return user;
 }
 
+const updateProfileInDB = async(payLoad : UpdatePayLoad) =>{
+    const {name, email , bio, profilePhoto} = payLoad;
+
+    const updatedUser = await prisma.user.update({
+        where : {
+            email
+        },
+        data : {
+            name,
+            profile : {
+                update : {
+                    bio,
+                    profilePhoto
+                }
+            }
+        },
+        omit : {
+            password : true,
+        },
+        include : {
+            profile : true
+        }
+    })
+
+    return updatedUser;
+
+}
+
 const userServices = {
     registerUserIntoDB,
     getAllUsersFromDB,
-    getMyProfileFromDB
+    getMyProfileFromDB,
+    updateProfileInDB
 }
 
 export default userServices;

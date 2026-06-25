@@ -36,7 +36,7 @@ const getMyProfile = catchAsync(async(req : Request, res : Response, next : Next
 
     const user = await userServices.getMyProfileFromDB(id);
 
-    sendResponse2(res, {
+    return sendResponse2(res, {
         success : true,
         statusCode : status.OK,
         message : "User Information feteched SuccessFully!",
@@ -45,11 +45,27 @@ const getMyProfile = catchAsync(async(req : Request, res : Response, next : Next
 })
 
 
+const updateProrile = catchAsync(async(req : Request, res : Response, nect : NextFunction)=>{
+
+    const payLoad = req.body;
+
+    const updatedUser = await  userServices.updateProfileInDB(payLoad);
+
+    return sendResponse2(res , {
+        success : true,
+        statusCode : status.OK,
+        message : "Profile updation successfull",
+        data : updatedUser
+    })
+})
+
+
 
 const userController = {
     getAllUser,
     registerUser,
-    getMyProfile
+    getMyProfile,
+    updateProrile
 }
 
 export default userController;
