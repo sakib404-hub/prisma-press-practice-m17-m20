@@ -217,6 +217,31 @@ npm start        # Production Server
 - 🚦 Rate Limiting
 - 📚 Swagger Documentation
 - 🧪 Unit & Integration Testing
+---
+
+## 👨‍💻 Author
+
+<div align="center">
+
+# Md. Shakib Hossen
+
+💻 Backend Developer in Progress
+
+🚀 Passionate about Backend Engineering
+
+🏗️ Building Scalable Applications
+
+📚 Learning Every Day
+
+<a href="https://github.com/sakib404-hub">
+<img src="https://img.shields.io/badge/GitHub-@sakib404--hub-181717?style=for-the-badge&logo=github"/>
+</a>
+
+<a href="https://www.linkedin.com/in/sakibhossen-dev7011">
+<img src="https://img.shields.io/badge/LinkedIn-Md.%20Shakib%20Hossen-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+</div>
 
 ---
 
