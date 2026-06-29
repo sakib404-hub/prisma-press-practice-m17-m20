@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../../utility/catchAsync";
+import userServices from "../user/user.services";
+import { postServices } from "./post.service";
+import sendResponse2 from "../../utility/sendResponse2";
+import status from "http-status";
 
 const getAllPosts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
@@ -17,7 +21,22 @@ const getSinglePost = catchAsync(async (req: Request, res: Response, next: NextF
 
 });
 
+
+//? creating the post
 const createPost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+    const payLoad = req.body;
+    const authorId = req.user?.id;
+    console.log(authorId);
+
+    const result = await postServices.createPost(payLoad , authorId as string);
+
+    sendResponse2(res, {
+        success : true,
+        statusCode : status.CREATED,
+        message : "Posted Successfully",
+        data : result
+    })
 
 });
 

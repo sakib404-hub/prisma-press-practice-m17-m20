@@ -1,3 +1,6 @@
+import { prisma } from "../../lib/prisma";
+import { ICreatePostPayLoad } from "./post.interface";
+
 const getAllPosts = async () => {
 
 };
@@ -14,8 +17,14 @@ const getSinglePost = async (postId: string) => {
 
 };
 
-const createPost = async () => {
-
+const createPost = async (payLoad : ICreatePostPayLoad, authorId : string) => {
+    const result = await prisma.post.create({
+        data : {
+            ...payLoad,
+            authorId
+        }
+    })
+    return result;
 };
 
 const updatePost = async (postId: string) => {
