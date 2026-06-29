@@ -6,6 +6,7 @@ import config from "./config/config";
 import sendResponse2 from "./utility/sendResponse2";
 import status from "http-status"
 import { authRouter } from "./modules/auth/auth.route";
+import { notFound } from "./middleware/notFound";
 
 const app : Application = express();
 
@@ -32,5 +33,9 @@ app.use('/api/user', userRouter);
 
 //? here is the route for authentication
 app.use('/api/auth', authRouter);
+
+
+//? adding a not found route
+app.use(notFound);
 
 export default app;
