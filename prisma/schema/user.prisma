@@ -1,17 +1,18 @@
 model User {
-    id String @id @default(uuid())
-    name String @db.VarChar(255)
-    email String @unique
-    password String
-    activeStatus ActiveStatus @default(ACTIVE)
-    role Role @default(USER)
+  id           String       @id @default(uuid())
+  name         String       @db.VarChar(255)
+  email        String       @unique
+  password     String
+  activeStatus ActiveStatus @default(ACTIVE)
+  role         Role         @default(USER)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    //? making an optional field for profile
-    profile Profile?
-    post Post[]
-    
-    @@map("users")
+  //? making an optional field for profile
+  profile Profile?
+  post    Post[]
+  comment Comment[]
+
+  @@map("users")
 }

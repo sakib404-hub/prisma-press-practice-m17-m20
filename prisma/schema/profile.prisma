@@ -1,16 +1,16 @@
 model Profile {
-    id String @id @default(uuid())
-    profilePhoto String
-    bio String?
+  id           String  @id @default(uuid())
+  profilePhoto String
+  bio          String?
 
-    //? creating one to one relationship with the user
-    user User @relation(fields: [user_id], references: [id])
-    user_id String @unique
+  //? creating one to one relationship with the user
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
-    //? updating the date and the time of the profile
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  //? updating the date and the time of the profile
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    //? changing the table name
-    @@map("profiles")
+  //? changing the table name
+  @@map("profiles")
 }

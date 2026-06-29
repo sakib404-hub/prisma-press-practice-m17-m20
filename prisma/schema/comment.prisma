@@ -1,0 +1,22 @@
+model Comment {
+  id      String @id @default(uuid())
+  content String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //? creating a relationship with the author
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  //? creating relationship with the post
+  postId String
+  posts  Post   @relation(fields: [postId], references: [id])
+
+  status CommentStatus @default(APPROVED)
+
+  //? mapping for author id and post id and renaming comment to comments
+  @@index([authorId])
+  @@index([postId])
+  @@map("comments")
+}

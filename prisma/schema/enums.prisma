@@ -1,15 +1,21 @@
 enum ActiveStatus {
-    ACTIVE
-    INACTIVE
+  ACTIVE
+  INACTIVE
 }
 
 enum Role {
-    USER
-    ADMIN
-    AUTHOR
+  USER
+  ADMIN
+  AUTHOR
 }
 
 enum PostStatus {
-    PUBLISHED
-    ARCHIVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  APPROVED
+  REJECT
+  PENDING
 }
