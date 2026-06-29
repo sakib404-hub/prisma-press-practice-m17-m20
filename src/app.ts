@@ -8,6 +8,7 @@ import status from "http-status"
 import { authRouter } from "./modules/auth/auth.route";
 import { notFound } from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
+import { postRouter } from "./modules/posts/post.route";
 
 const app : Application = express();
 
@@ -34,6 +35,9 @@ app.use('/api/user', userRouter);
 
 //? here is the route for authentication
 app.use('/api/auth', authRouter);
+
+//? route for the post
+app.use('/api/posts', postRouter);
 
 
 //? adding a not found route
