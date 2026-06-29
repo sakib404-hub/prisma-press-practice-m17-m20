@@ -11,6 +11,7 @@ model User {
 
     //? making an optional field for profile
     profile Profile?
+    post Post[]
     
     @@map("users")
 }

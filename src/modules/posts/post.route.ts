@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { postController } from "./post.controller";
 import auth from "../../middleware/auth";
+import { Role } from "../../../prisma/generated/prisma/enums";
 
 const router = Router();
 
@@ -24,9 +25,10 @@ router.get(
     postController.getSinglePost
 );
 
+//? creating a post admin or the logged in user 
 router.post(
     "/",
-    auth("USER", "ADMIN"),
+    auth(Role.ADMIN, Role.USER),
     postController.createPost
 );
 
