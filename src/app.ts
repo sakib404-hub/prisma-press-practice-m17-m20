@@ -7,6 +7,7 @@ import sendResponse2 from "./utility/sendResponse2";
 import status from "http-status"
 import { authRouter } from "./modules/auth/auth.route";
 import { notFound } from "./middleware/notFound";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
 
 const app : Application = express();
 
@@ -37,5 +38,7 @@ app.use('/api/auth', authRouter);
 
 //? adding a not found route
 app.use(notFound);
+//? adding another middleware that is the global error handler
+app.use(globalErrorHandler);
 
 export default app;
