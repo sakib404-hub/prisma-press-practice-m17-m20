@@ -99,7 +99,31 @@ const updatePost = async (postId: string) => {
 
 };
 
-const deletePost = async (postId: string) => {
+const deletePost = async (postId: string, authorId : string, isAdmin : boolean) => {
+
+    await prisma.$transaction(async(tx)=>{
+       const post = await tx.post.findUnique({
+            where : {
+                id : postId
+            }
+        });
+
+        if(!post){
+            throw new Error("Post does not exists!");
+        }
+
+         if(!isAdmin && post.authorId !== authorId){
+            throw("You are not the admin, or the author of this post you can not delete this post");
+         }
+
+        await tx.post.delete({
+            where : {
+                id : postId
+            }
+         })
+    })
+    
+    return null;
 
 };
 

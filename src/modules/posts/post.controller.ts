@@ -4,6 +4,7 @@ import userServices from "../user/user.services";
 import { postServices } from "./post.service";
 import sendResponse2 from "../../utility/sendResponse2";
 import status from "http-status";
+import { Role } from "../../../prisma/generated/prisma/enums";
 
 const getAllPosts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
@@ -80,7 +81,17 @@ const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunc
 });
 
 const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const postId = req.params.postId;
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role ===  Role.ADMIN ? true : false;
 
+    await postServices.deletePost(postId as string, authorId as string, isAdmin);
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Post deleted successfully!"
+    })
 });
 
 export const postController = {
