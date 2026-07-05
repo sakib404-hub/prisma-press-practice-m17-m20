@@ -12,8 +12,8 @@ export interface ICreatePostPayLoad {
 export interface IUpdatePost {
     title : string;
     content : string;
-    thumbnail : string;
+    thumbnail ?: string;
     isFeatured ? : boolean;
     status ? : PostStatus;
-    tags : string[];
+    tags ?: string[];
 }

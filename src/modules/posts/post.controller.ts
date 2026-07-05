@@ -20,6 +20,15 @@ const getAllPosts = catchAsync(async (req: Request, res: Response, next: NextFun
 });
 
 const getPostStats = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    
+    const result = await postServices.getPostStats();
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Post stats retived successfully!",
+        data : result
+    })
 
 });
 
@@ -83,8 +92,14 @@ const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunc
     const authorId = req.user?.id;
     const isAdmin = req.user?.role === Role.ADMIN ? true : false;
 
-     const result = await postServices.updatePost(payLoad, postId as string, authorId as string, isAdmin)
+     const result = await postServices.updatePost(payLoad, postId as string, authorId as string, isAdmin);
 
+     return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Post updation successful!",
+        data : result
+     })
 });
 
 const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
