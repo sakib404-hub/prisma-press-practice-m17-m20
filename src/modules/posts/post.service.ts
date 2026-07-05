@@ -1,6 +1,6 @@
 import { CommentStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { ICreatePostPayLoad } from "./post.interface";
+import { ICreatePostPayLoad, IUpdatePost } from "./post.interface";
 
 const getAllPosts = async () => {
     const result = await prisma.post.findMany({
@@ -95,7 +95,56 @@ const createPost = async (payLoad : ICreatePostPayLoad, authorId : string) => {
     return result;
 };
 
-const updatePost = async (postId: string) => {
+const updatePost = async (payLoad : IUpdatePost, postId : string, authorId : string, isAdmin : Boolean) => {
+    const transactionResult = await prisma.$transaction(async(tx)=>{
+
+        const post = await tx.post.findUnique({
+            where : {
+                id : postId,
+                authorId
+            },
+            include : {
+                author : {
+                    omit : {
+                        password : true
+                    }
+                },
+                _count : {
+                    select : {
+                        comment : true
+                    }
+                }
+            }
+        });
+
+        if(!post){
+            throw new Error("Post Does not exists");
+        }
+
+        if(!isAdmin && post.authorId !== authorId){
+            throw new Error("You are neither the admin or the author of this post , you can not update it!");
+        }
+
+        const updatedPost = await tx.post.update({
+            where : {
+                id : postId
+            },
+            data : {
+                ...payLoad
+            },
+            include : {
+                author : {
+                    omit : {
+                        password : true
+                    }
+                }
+            }
+        })
+
+        return updatedPost;
+    })
+
+    return transactionResult;
 
 };
 

@@ -78,6 +78,13 @@ const createPost = catchAsync(async (req: Request, res: Response, next: NextFunc
 
 const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
+    const payLoad = req.body;
+    const postId = req.params.postId;
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === Role.ADMIN ? true : false;
+
+     const result = await postServices.updatePost(payLoad, postId as string, authorId as string, isAdmin)
+
 });
 
 const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
