@@ -24,6 +24,17 @@ const getPostStats = catchAsync(async (req: Request, res: Response, next: NextFu
 
 const getMyPosts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
+    const userId = req.user?.id;
+
+    const results = await postServices.getMyPosts(userId as string);
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message :  "Posts retrive successfully",
+        data : results
+    })
+
 });
 
 const getSinglePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

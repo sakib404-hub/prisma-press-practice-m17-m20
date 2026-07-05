@@ -25,11 +25,19 @@ const getPostStats = async () => {
 
 };
 
-const getMyPosts = async () => {
+const getMyPosts = async (userId : string) => {
+
+    const data = await prisma.post.findMany({
+        where : {
+            authorId : userId
+        }
+    })
+
+    return data;
 
 };
 
-const getSinglePost = async (postId: string) => {
+const getSinglePost = async () => {
 
 };
 
