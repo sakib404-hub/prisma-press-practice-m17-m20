@@ -2,7 +2,6 @@ import { Router } from "express";
 import { postController } from "./post.controller";
 import auth from "../../middleware/auth";
 import { Role } from "../../../prisma/generated/prisma/enums";
-import { resolve } from "node:dns";
 
 const router = Router();
 

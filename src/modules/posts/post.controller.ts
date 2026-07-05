@@ -39,6 +39,21 @@ const getMyPosts = catchAsync(async (req: Request, res: Response, next: NextFunc
 
 const getSinglePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
+    const postId = req.params.postId;
+
+    if(!postId){
+        throw new Error("Post does not exists!");
+    }
+
+    const result = await postServices.getSinglePost(postId as string);
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Post found sucessfully!",
+        data : result
+    })
+
 });
 
 
