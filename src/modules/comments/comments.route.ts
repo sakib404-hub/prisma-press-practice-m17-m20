@@ -19,6 +19,6 @@ router.get('/:commentId', commentController.getComment);
 router.get('/', commentController.getAllComments);
 
 // deleting a comment 
-router.delete('/:commentId', commentController.deleteComment);
+router.delete('/:commentId',auth(Role.USER, Role.ADMIN, Role.AUTHOR), commentController.deleteComment);
 
 export const commentRouter = router;

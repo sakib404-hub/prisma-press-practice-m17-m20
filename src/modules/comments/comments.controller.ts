@@ -3,6 +3,7 @@ import catchAsync from "../../utility/catchAsync"
 import { commentServices } from "./comments.service";
 import sendResponse2 from "../../utility/sendResponse2";
 import status from "http-status";
+import { Role } from "../../../prisma/generated/prisma/enums";
 
 
 const createComment = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
@@ -65,8 +66,12 @@ const getAllComments = catchAsync(async(req : Request, res : Response, next : Ne
 
 const deleteComment = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
     const commentId = req.params.commentId;
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === Role.ADMIN ? true : false;
 
-    await commentServices.deleteComment(commentId as string);
+    console.log(isAdmin);
+
+    await commentServices.deleteComment(commentId as string, authorId as string, isAdmin);
 
     return sendResponse2(res, {
         success : true,

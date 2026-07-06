@@ -99,7 +99,7 @@ const getAllComments = async()=>{
 
 //? deleting a comment
 
-const deleteComment = async(commentId : string)=>{
+const deleteComment = async(commentId : string, authorId : string, isAdmin : boolean)=>{
 
     await prisma.$transaction(async(tx)=>{
         
@@ -111,6 +111,10 @@ const deleteComment = async(commentId : string)=>{
 
         if(!comment){
             throw new Error("Comment does not exist");
+        }
+
+        if(comment.authorId !== authorId && !isAdmin){
+            throw new Error("You are not allowed to delete this comment.");
         }
 
         await tx.comment.delete({
