@@ -9,6 +9,7 @@ import { authRouter } from "./modules/auth/auth.route";
 import { notFound } from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { postRouter } from "./modules/posts/post.route";
+import { commentRouter } from "./modules/comments/comments.route";
 
 const app : Application = express();
 
@@ -39,6 +40,8 @@ app.use('/api/auth', authRouter);
 //? route for the post
 app.use('/api/posts', postRouter);
 
+//? route for the comments
+app.use('/api/comments', commentRouter);
 
 //? adding a not found route
 app.use(notFound);
