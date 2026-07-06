@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { IPayLoadComment } from "./comments.interface"
+import { IPayLoadComment, IUpdateComments } from "./comments.interface"
 
 //? creating comment in the database
 const createComment = async (payLoad: IPayLoadComment) => {
@@ -125,10 +125,52 @@ const deleteComment = async(commentId : string, authorId : string, isAdmin : boo
     })
 }
 
+//? updating comment
+const updateComments = async(payLoad : IUpdateComments, commentId : string, authorId : string, isAdmin : boolean)=>{
+
+    const comment = await prisma.comment.findUnique({
+        where : {
+            id : commentId
+        }
+    })
+
+    if(!comment){
+        throw new Error("Comment does not exists!");
+    }
+
+    if(!isAdmin && comment.authorId !== authorId){
+        throw new Error("You don't have the permission to update this comment!");
+    }
+
+    const updatedComment = await prisma.comment.update({
+        where : {
+            id : commentId
+        },
+        data : {
+            ...payLoad
+        },
+         include: {
+            posts: {
+                select: {
+                    id: true,
+                    title: true,
+                    content: true,
+                    thumbnail: true,
+                }
+            }
+        }
+    })
+
+    return updatedComment;
+}
+
+
+
 export const commentServices = {
     createComment,
     getAuthorComments,
     getComment,
     getAllComments,
-    deleteComment
+    deleteComment,
+    updateComments
 } 

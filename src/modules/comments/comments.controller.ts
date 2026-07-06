@@ -80,10 +80,33 @@ const deleteComment = catchAsync(async(req : Request, res : Response, next : Nex
     })
 })
 
+//? updatingg comment
+const updateComment = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
+
+    const payLoad = req.body;
+    const commentId = req.params.commentId;
+
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === Role.ADMIN ? true : false;
+
+    const result = await commentServices.updateComments(payLoad, commentId as string, authorId as string, isAdmin);
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Comment successfully Updated!",
+        data : result
+    })
+
+})
+
+
+
 export const commentController = {
     createComment,
     getAuthorComments,
     getComment,
     getAllComments,
-    deleteComment
+    deleteComment,
+    updateComment
 }

@@ -6,3 +6,8 @@ export interface IPayLoadComment {
     authorId : string;
     status : CommentStatus
 }
+
+export interface IUpdateComments {
+    content  ? : string;
+    status ? : CommentStatus
+}
