@@ -15,4 +15,7 @@ router.get('/author/my-comments', auth(Role.ADMIN, Role.AUTHOR, Role.USER), comm
 //? getting single comment by id
 router.get('/:commentId', commentController.getComment);
 
+//? ggetting all the comments
+router.get('/', commentController.getAllComments)
+
 export const commentRouter = router;
