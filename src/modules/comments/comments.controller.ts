@@ -63,9 +63,22 @@ const getAllComments = catchAsync(async(req : Request, res : Response, next : Ne
 })
 
 
+const deleteComment = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
+    const commentId = req.params.commentId;
+
+    await commentServices.deleteComment(commentId as string);
+
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Comment deleted successfully!"
+    })
+})
+
 export const commentController = {
     createComment,
     getAuthorComments,
     getComment,
-    getAllComments
+    getAllComments,
+    deleteComment
 }

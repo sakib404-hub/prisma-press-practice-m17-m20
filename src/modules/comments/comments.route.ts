@@ -16,6 +16,9 @@ router.get('/author/my-comments', auth(Role.ADMIN, Role.AUTHOR, Role.USER), comm
 router.get('/:commentId', commentController.getComment);
 
 //? ggetting all the comments
-router.get('/', commentController.getAllComments)
+router.get('/', commentController.getAllComments);
+
+// deleting a comment 
+router.delete('/:commentId', commentController.deleteComment);
 
 export const commentRouter = router;

@@ -76,6 +76,7 @@ const getComment = async (commentId: string)=>{
     return comment;
 }
 
+//? getting all the comments
 const getAllComments = async()=>{
     const result = await prisma.comment.findMany({
          include: {
@@ -96,9 +97,34 @@ const getAllComments = async()=>{
     return result;
 }
 
+//? deleting a comment
+
+const deleteComment = async(commentId : string)=>{
+
+    await prisma.$transaction(async(tx)=>{
+        
+        const comment = await tx.comment.findUnique({
+            where : {
+                id : commentId
+            }
+        })
+
+        if(!comment){
+            throw new Error("Comment does not exist");
+        }
+
+        await tx.comment.delete({
+            where : {
+                id : commentId
+            }
+        })
+    })
+}
+
 export const commentServices = {
     createComment,
     getAuthorComments,
     getComment,
-    getAllComments
+    getAllComments,
+    deleteComment
 } 
