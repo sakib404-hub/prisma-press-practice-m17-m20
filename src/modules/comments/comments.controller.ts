@@ -25,7 +25,21 @@ const createComment = catchAsync(async(req : Request, res : Response, next : Nex
 
 })
 
+const getAuthorComments = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
+    const authorId = req.user?.id;
+
+    const result = await commentServices.getAuthorComments(authorId as string);
+
+    return sendResponse2(res, {
+        success : true, 
+        statusCode : status.OK,
+        message : "Author comment fetched successfully",
+        data : result
+    })
+})
+
 
 export const commentController = {
-    createComment
+    createComment,
+    getAuthorComments
 }

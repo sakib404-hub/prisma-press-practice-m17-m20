@@ -9,4 +9,7 @@ const router = Router();
 //? posting a comment on a post
 router.post('/',auth(Role.ADMIN, Role.AUTHOR, Role.USER), commentController.createComment);
 
+//? gettin comment based on author and authorId
+router.get('/author/my-comments', auth(Role.ADMIN, Role.AUTHOR, Role.USER), commentController.getAuthorComments );
+
 export const commentRouter = router;

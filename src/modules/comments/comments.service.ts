@@ -30,6 +30,28 @@ const createComment = async(payLoad : IPayLoadComment)=>{
     return transactionResult;
 }
 
+const getAuthorComments = async(authorId : string)=>{
+    const allComments = await prisma.comment.findMany({
+        where : {
+            authorId
+        },
+        include : {
+            posts : {
+                select : {
+                    id : true,
+                    title : true,
+                    content : true,
+                    thumbnail : true,
+                }
+            }
+        }
+    })
+
+    return allComments;
+
+}
+
 export const commentServices = {
-    createComment
+    createComment,
+    getAuthorComments
 } 
