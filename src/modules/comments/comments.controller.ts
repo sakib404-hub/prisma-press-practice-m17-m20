@@ -101,6 +101,21 @@ const updateComment = catchAsync(async(req : Request, res : Response, next : Nex
 })
 
 
+const moderateComment = catchAsync(async(req : Request, res : Response, next : NextFunction)=>{
+
+    const commentId = req.params.commentId;
+    const payLoad = req.body;
+    const result = await commentServices.moderateComment(payLoad, commentId as string);
+    
+    return sendResponse2(res, {
+        success : true,
+        statusCode : status.OK,
+        message : "Comment successfully Updated!",
+        data : result
+    })
+
+})
+
 
 export const commentController = {
     createComment,
@@ -108,5 +123,6 @@ export const commentController = {
     getComment,
     getAllComments,
     deleteComment,
-    updateComment
+    updateComment,
+    moderateComment
 }

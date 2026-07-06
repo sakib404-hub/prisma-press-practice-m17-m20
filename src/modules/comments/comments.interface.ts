@@ -11,3 +11,7 @@ export interface IUpdateComments {
     content  ? : string;
     status ? : CommentStatus
 }
+
+export interface IModerateCommentPayLoad {
+    status : CommentStatus
+}

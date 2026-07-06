@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { IPayLoadComment, IUpdateComments } from "./comments.interface"
+import { IModerateCommentPayLoad, IPayLoadComment, IUpdateComments } from "./comments.interface"
 
 //? creating comment in the database
 const createComment = async (payLoad: IPayLoadComment) => {
@@ -164,6 +164,35 @@ const updateComments = async(payLoad : IUpdateComments, commentId : string, auth
     return updatedComment;
 }
 
+const moderateComment = async(payLoad : IModerateCommentPayLoad, commentId : string)=>{
+
+    const comment = await prisma.comment.findUnique({
+        where : {
+            id : commentId
+        }
+    })
+
+    if(!comment){
+        throw new Error("Comment Does not exists");
+    }
+
+    if(comment.status === payLoad.status){
+        throw new Error("Your comment status is Already updtoDate");
+    }
+
+    const updatedComment = await prisma.comment.update({
+        where : {
+            id : commentId
+        },
+        data : {
+            status : payLoad.status
+        }
+    })
+
+    return updatedComment;
+
+}
+
 
 
 export const commentServices = {
@@ -172,5 +201,6 @@ export const commentServices = {
     getComment,
     getAllComments,
     deleteComment,
-    updateComments
+    updateComments,
+    moderateComment
 } 

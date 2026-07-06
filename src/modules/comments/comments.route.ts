@@ -24,4 +24,8 @@ router.delete('/:commentId',auth(Role.USER, Role.ADMIN, Role.AUTHOR), commentCon
 //? updating comments route
 router.patch('/:commentId', auth(Role.ADMIN, Role.USER, Role.AUTHOR), commentController.updateComment)
 
+//? this is for moderating the comment 
+router.put('/:commentId/moderate', auth(Role.ADMIN
+), commentController.moderateComment)
+
 export const commentRouter = router;
