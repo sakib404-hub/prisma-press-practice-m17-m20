@@ -12,4 +12,7 @@ router.post('/',auth(Role.ADMIN, Role.AUTHOR, Role.USER), commentController.crea
 //? gettin comment based on author and authorId
 router.get('/author/my-comments', auth(Role.ADMIN, Role.AUTHOR, Role.USER), commentController.getAuthorComments );
 
+//? getting single comment by id
+router.get('/:commentId', commentController.getComment);
+
 export const commentRouter = router;

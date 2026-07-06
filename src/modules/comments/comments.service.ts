@@ -2,24 +2,24 @@ import { prisma } from "../../lib/prisma";
 import { IPayLoadComment } from "./comments.interface"
 
 //? creating comment in the database
-const createComment = async(payLoad : IPayLoadComment)=>{
+const createComment = async (payLoad: IPayLoadComment) => {
 
     const postId = payLoad.postId;
 
-    const transactionResult = await prisma.$transaction(async(tx)=>{
-        const  post = await tx.post.findUnique({
-            where : {
-                id : postId
+    const transactionResult = await prisma.$transaction(async (tx) => {
+        const post = await tx.post.findUnique({
+            where: {
+                id: postId
             }
         });
 
         // throwing an error if the post does not exists 
-        if(!post){
+        if (!post) {
             throw new Error("Post does not exists");
         }
 
         const createdComment = await tx.comment.create({
-            data : {
+            data: {
                 ...payLoad
             }
         })
@@ -30,18 +30,19 @@ const createComment = async(payLoad : IPayLoadComment)=>{
     return transactionResult;
 }
 
-const getAuthorComments = async(authorId : string)=>{
+//? getting logged in users comments
+const getAuthorComments = async (authorId: string) => {
     const allComments = await prisma.comment.findMany({
-        where : {
+        where: {
             authorId
         },
-        include : {
-            posts : {
-                select : {
-                    id : true,
-                    title : true,
-                    content : true,
-                    thumbnail : true,
+        include: {
+            posts: {
+                select: {
+                    id: true,
+                    title: true,
+                    content: true,
+                    thumbnail: true,
                 }
             }
         }
@@ -51,7 +52,32 @@ const getAuthorComments = async(authorId : string)=>{
 
 }
 
+//? 
+const getComment = async (commentId: string)=>{
+    const comment = await prisma.comment.findUnique({
+        where: {
+            id: commentId
+        },
+         include: {
+            posts: {
+                select: {
+                    id: true,
+                    title: true,
+                    content: true,
+                    thumbnail: true,
+                }
+            }
+        }
+    })
+
+    if(!comment){
+        throw new Error("Comment does not exists!");
+    }
+    return comment;
+}
+
 export const commentServices = {
     createComment,
-    getAuthorComments
+    getAuthorComments,
+    getComment
 } 

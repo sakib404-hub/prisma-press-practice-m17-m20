@@ -13,13 +13,18 @@ const getAllPosts = async () => {
                     id : true,
                     content : true,
                     status : true
-                }
+                },
             },
             author: {
                 select: {
                     id: true,
                     name: true,
                     email: true
+                }
+            },
+            _count : {
+                select : {
+                    comment : true
                 }
             }
         }
