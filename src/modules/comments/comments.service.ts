@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import { IPayLoadComment } from "./comments.interface"
 
+//? creating comment in the database
 const createComment = async(payLoad : IPayLoadComment)=>{
 
     const postId = payLoad.postId;

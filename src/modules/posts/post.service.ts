@@ -8,7 +8,13 @@ const getAllPosts = async () => {
             createdAt: "desc"
         },
         include: {
-            comment: true,
+            comment: {
+                select : {
+                    id : true,
+                    content : true,
+                    status : true
+                }
+            },
             author: {
                 select: {
                     id: true,
