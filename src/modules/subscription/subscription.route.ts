@@ -9,7 +9,9 @@ router.post('/checkout',auth(Role.ADMIN, Role.AUTHOR, Role.USER),
  subscriptionController.createCheckOutSession);
 
 
-router.post('/webhook', subscriptionController.handleWebHook)
+router.post('/webhook', subscriptionController.handleWebHook);
+
+router.get('/subscription-status',auth(Role.ADMIN, Role.AUTHOR, Role.USER), subscriptionController.getSubscriptionStatus)
 
 // router.post('/webhook', ()=>{})
 

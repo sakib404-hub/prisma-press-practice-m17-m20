@@ -82,9 +82,9 @@ const handleWebHook = async (payLoad: Buffer, signature: string) => {
             break;
         case 'customer.subscription.updated':
 
-        //? Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
-        // event.data.object;
-        handleChangeSubscription(event.data.object)
+            //? Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
+            // event.data.object;
+            handleChangeSubscription(event.data.object)
 
             break;
         case 'customer.subscription.deleted':
@@ -99,7 +99,25 @@ const handleWebHook = async (payLoad: Buffer, signature: string) => {
     }
 }
 
+
+const getSubscriptionStatus = async (userId: string)=>{
+    const isSubscriptionExist = await prisma.subscription.findUniqueOrThrow({
+        where: {
+            userId
+        }
+    });
+
+    const isActive = (isSubscriptionExist.status === SubscriptionStatus.ACTIVE ) && (isSubscriptionExist.current_period_end) && new Date(isSubscriptionExist.current_period_end) > new Date();
+
+    return {
+        status : isSubscriptionExist.status,
+        isActive : isActive,
+        currentPeriodEnds : isSubscriptionExist.current_period_end
+    }
+}
+
 export const subscriptionServices = {
     createCheckOutSession,
-    handleWebHook
+    handleWebHook,
+    getSubscriptionStatus
 }
