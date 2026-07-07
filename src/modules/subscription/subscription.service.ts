@@ -3,7 +3,7 @@ import config from "../../config/config";
 import { prisma } from "../../lib/prisma"
 import stripe from "../../lib/stripe";
 import { SubscriptionStatus } from "../../../prisma/generated/prisma/enums";
-import { handleCheckOutSessionComplete } from "./subscription.utils";
+import { handleChangeSubscription, handleCheckOutSessionComplete } from "./subscription.utils";
 
 const createCheckOutSession = async (userId: string) => {
 
@@ -79,12 +79,12 @@ const handleWebHook = async (payLoad: Buffer, signature: string) => {
             //? Occurs when a Checkout Session has been successfully completed.
             await handleCheckOutSessionComplete(event.data.object);
 
-
             break;
         case 'customer.subscription.updated':
 
         //? Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
-            const paymentMethd = event.data.object;
+        // event.data.object;
+        handleChangeSubscription(event.data.object)
 
 
             break;

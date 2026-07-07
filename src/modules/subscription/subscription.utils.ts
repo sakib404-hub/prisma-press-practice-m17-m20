@@ -13,7 +13,8 @@ export const handleCheckOutSessionComplete = async (session: Stripe.Checkout.Ses
     const stripeSubscritionId = session.subscription as string;
 
     if (!userId || !stripeCustomerId || !stripeSubscritionId) {
-        throw new Error("Web Hook Failed!");
+        console.log("Missing values fore creating checkout session");
+        return;
     }
 
     const stripeSubscrition = await stripe.subscriptions.retrieve(stripeSubscritionId as string);
@@ -44,6 +45,46 @@ export const handleCheckOutSessionComplete = async (session: Stripe.Checkout.Ses
 
         }
     })
+}
+
+export const handleChangeSubscription = async(payLoad : Stripe.Subscription)=>{
+
+    const stripe_subscription_id = payLoad.id;
+    let status;
+
+    //? getting the subscription status from stripe
+    if(payLoad.status === 'active' || payLoad.status === 'trialing'){
+        status = SubscriptionStatus.ACTIVE
+    }else if(payLoad.status === "canceled"){
+        status = SubscriptionStatus.CANCELLED
+    }else{
+        status = SubscriptionStatus.EXPIRED
+    }
+
+    const current_period_end = getPeriodEnd(payLoad);
+
+    const isSubscriptionExist = await prisma.subscription.findUnique({
+        where: {
+            id : stripe_subscription_id
+        }
+    })
+
+    if(!isSubscriptionExist){
+        console.log(`WebHook : Subscription does not  exits! with id -> ${stripe_subscription_id}`)
+        return ;
+    }
+
+    await prisma.subscription.update({
+        where : {
+            stripe_subscription_id
+        },
+        data : {
+            status,
+            current_period_end
+        }
+    })
+
+
 }
 
 
