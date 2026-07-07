@@ -10,6 +10,7 @@ import { notFound } from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { postRouter } from "./modules/posts/post.route";
 import { commentRouter } from "./modules/comments/comments.route";
+import { subscriptionRouter } from "./modules/subscription/subscription.route";
 
 const app : Application = express();
 
@@ -63,6 +64,9 @@ app.use('/api/posts', postRouter);
 
 //? route for the comments
 app.use('/api/comments', commentRouter);
+
+//? route for the subscription
+app.use('/api/subscription', subscriptionRouter);
 
 //? adding a not found route
 app.use(notFound);
