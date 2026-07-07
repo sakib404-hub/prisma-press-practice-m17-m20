@@ -19,7 +19,7 @@ export const handleCheckOutSessionComplete = async (session: Stripe.Checkout.Ses
 
     const stripeSubscrition = await stripe.subscriptions.retrieve(stripeSubscritionId as string);
 
-    console.log(stripeSubscrition.items.data[0]);
+    // console.log(stripeSubscrition.items.data[0]);
 
     //? const currentPeriodStarts = stripeSubscrition.items.data[0]?.current_period_start;
 
@@ -50,16 +50,18 @@ export const handleCheckOutSessionComplete = async (session: Stripe.Checkout.Ses
 export const handleChangeSubscription = async(payLoad : Stripe.Subscription)=>{
 
     const stripe_subscription_id = payLoad.id;
-    let status;
+    let subscriptionStatus;
 
     //? getting the subscription status from stripe
     if(payLoad.status === 'active' || payLoad.status === 'trialing'){
-        status = SubscriptionStatus.ACTIVE
+        subscriptionStatus = SubscriptionStatus.ACTIVE
     }else if(payLoad.status === "canceled"){
-        status = SubscriptionStatus.CANCELLED
+        subscriptionStatus = SubscriptionStatus.CANCELLED
     }else{
-        status = SubscriptionStatus.EXPIRED
+        subscriptionStatus = SubscriptionStatus.EXPIRED
     }
+
+    
 
     const current_period_end = getPeriodEnd(payLoad);
 
@@ -79,7 +81,7 @@ export const handleChangeSubscription = async(payLoad : Stripe.Subscription)=>{
             stripe_subscription_id
         },
         data : {
-            status,
+            status : subscriptionStatus,
             current_period_end
         }
     })

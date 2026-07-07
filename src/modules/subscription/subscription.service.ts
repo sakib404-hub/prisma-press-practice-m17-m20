@@ -86,11 +86,11 @@ const handleWebHook = async (payLoad: Buffer, signature: string) => {
         // event.data.object;
         handleChangeSubscription(event.data.object)
 
-
             break;
         case 'customer.subscription.deleted':
-            const paymentObject = event.data.object;
-        //? Occurs whenever a customer’s subscription ends.
+            //? Occurs whenever a customer’s subscription ends.
+
+            handleChangeSubscription(event.data.object);
             break;
         default:
             // Unexpected event type
