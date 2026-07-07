@@ -13,6 +13,7 @@ model Subscription {
     //? stripe related ids will be here
 
     //? stripe customer Id and stripe subscription Id
+    stripe_customer_id String @unique
     
 
     created_at DateTime @default(now())
