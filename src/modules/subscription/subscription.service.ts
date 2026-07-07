@@ -1,3 +1,4 @@
+import config from "../../config/config";
 import { prisma } from "../../lib/prisma"
 import stripe from "../../lib/stripe";
 
@@ -35,8 +36,30 @@ const createCheckOutSession = async (userId: string) => {
             stripeCustomerId = customer.id;
         }
 
+        const session = await stripe.checkout.sessions.create({
+            line_items : [
+                {
+                 price : config.stripe_product_id,
+                 quantity : 1
+                }
+            ],
+            mode : "subscription",
+            //? who is paying
+            customer : stripeCustomerId,
+            payment_method_types: ["card"],
+            success_url : `${config.app_url}/premium?success=true`,
+            cancel_url : `${config.app_url}/payment?success=false`,
+            metadata : {
+                userId : user?.id!
+            }
+        })
+
+        return session.url;
     })
 
+    return {
+        paymentUrl : transactionResult
+    }
 }
 
 export const subscriptionServices = {
