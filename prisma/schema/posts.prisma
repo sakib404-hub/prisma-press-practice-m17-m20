@@ -8,6 +8,9 @@ model Post {
   tags       String[]
   views      Int        @default(0)
 
+  //? addingg isPremium for subscribed users and post
+  isPremium Boolean @default(false)
+
   //? adding the created at and the updated at field
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

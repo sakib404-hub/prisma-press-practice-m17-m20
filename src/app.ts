@@ -23,12 +23,33 @@ app.use(cors({
 }))
 
 
+const serverStartTime = Date.now();
+
 app.get("/", (req :Request, res : Response)=>{
-    sendResponse2(res, {
+    const uptimeInSeconds = Math.floor((Date.now() - serverStartTime) / 1000);
+    const hours =  Math.floor(uptimeInSeconds / 3600);
+    const minutes =  Math.floor((uptimeInSeconds % 3600) / 60);
+    const seconds = uptimeInSeconds % 60;
+
+
+    return res.status(status.OK).json({
         success : true,
         statusCode : status.OK,
-        message : "This is the Root Route"
-    });
+        message : "This is the Root Route",
+        version : "1.0.0",
+        uptime : {
+            hours :hours,
+            minutes : minutes,
+            seconds : seconds
+        },
+         author: {
+            name: "Shakib Hossen",
+            role: "Backend Developer",
+            github: "https://github.com/sakib404-hub",
+            email: "akibhossainsakib7011@gmail.com",
+        },
+        timeStamp : new Date().toISOString()
+    })
 })
 
 //? here we will have all the routes

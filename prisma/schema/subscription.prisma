@@ -1,0 +1,20 @@
+model Subscription {
+    id String @id @default(uuid())
+
+    //? creating relationship with the user table
+    userId String @unique
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    //? subscription status
+    status SubscriptionStatus @default(ACTIVE)
+
+    current_period_end DateTime
+
+    //? stripe related ids will be here
+
+    //? stripe customer Id and stripe subscription Id
+    
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
