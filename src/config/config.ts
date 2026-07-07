@@ -14,8 +14,9 @@ const config = {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET!,
     jwt_access_token_expiration: process.env.JWT_ACCESS_TOKEN_EXPIRATION!,
     jwt_refresh_token_expiration: process.env.JWT_REFRESH_TOKEN_EXPIRATION!,
-    stripe_product_id : process.env.STRIPE_PRODUCT_ID!,
-    stripe_secret_api_key : process.env.STRIPE_SECRET_API_KEY!
+    stripe_product_price_id : process.env.STRIPE_PRODUCT_ID!,
+    stripe_secret_api_key : process.env.STRIPE_SECRET_API_KEY!,
+    web_hook_secret : process.env.WEB_HOOK_SECRET!
 }
 
 export default config;
